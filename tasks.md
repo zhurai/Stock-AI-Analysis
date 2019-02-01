@@ -1,10 +1,10 @@
 See: https://docs.google.com/document/d/1MkWhTZV8U9QH3WhPmY_0J3iY-KlUtBcKDcDdydaFGvU/edit
 
-Step 1: Capture Buy/Sell Signals
+~~Step 1: Capture Buy/Sell Signals
 - Add 1 column: Signal
 - Put: "Buy" if: buySellRatio>1 && Sureness>0.5 && close > 5-EMA
 - Put: "Sell" if: buySellRatio<1 && Sureness>0.5 && close < 5-EMA
-- Put: "Neutral" otherwise
+- Put: "Neutral" otherwise~~
 
 Step 1a: Capture Stop prices (long & short)
 - Add 2 columns: Long_Stop, Short_Stop
