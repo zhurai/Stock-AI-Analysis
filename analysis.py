@@ -1,9 +1,9 @@
 import csv
 
 table=[]
-file=r"C:\Personal\Development\Trading\analysis.csv"
-#file=r"C:\Personal\Development\Trading\analysis2.csv"
-ofile=r"C:\Personal\Development\Trading\output.csv"
+file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis.csv"
+#file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis2.csv" # testfile
+ofile=r"C:\Personal\Development\Trading\StockAIAnalysis\output.csv"
 header = []
 
 with open(file) as csvfile:
