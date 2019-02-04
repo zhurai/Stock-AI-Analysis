@@ -97,8 +97,8 @@ for index,row in enumerate(table):
 
 # save file
 header.append("Signal")
-header.append("Long Stop")
-header.append("Short Stop")
+header.append("Low 3")
+header.append("High 3")
 with open(ofile,mode='w',newline='') as csvfile:
     write=csv.writer(csvfile,delimiter=',')
     write.writerow(header)
