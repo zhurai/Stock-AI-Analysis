@@ -1,27 +1,15 @@
 import csv
+import utils
 
 table=[]
-file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis.csv"
-#file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis2.csv" # testfile
+#file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis.csv"
+file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis2.csv" # testfile
 ofile=r"C:\Personal\Development\Trading\StockAIAnalysis\output.csv"
 header = []
 
-with open(file) as csvfile:
-    csvreader = csv.reader(csvfile,delimiter=',')
-    linecount=0
-    for row in csvreader:
-        if linecount == 0:
-            # labels
-            header=row
-            linecount+=1
-        else:
-            table.append(row)
-            linecount+=1
-
-# debug to print the whole table
-# print('\n'.join(map(' '.join, table)))
-# print(table[0][0] = 1/3/2000)
-
+table = utils.readtable(file)
+header = utils.readheaders(file)
+header = utils.appendheaders(header,["Signal","Low 3","High 3"])
 
 # Date,Open,High,Low,Close,Volume,5-EMA,BuySellRatio,Sureness
 #   0 , 1  , 2  , 3 , 4   ,  5   , 6   ,     7      ,   8
@@ -96,13 +84,6 @@ for index,row in enumerate(table):
 
 
 # save file
-header.append("Signal")
-header.append("Low 3")
-header.append("High 3")
-with open(ofile,mode='w',newline='') as csvfile:
-    write=csv.writer(csvfile,delimiter=',')
-    write.writerow(header)
-    for row in table:
-        write.writerow(row)
+utils.savetable(header,table,ofile)
         
 
