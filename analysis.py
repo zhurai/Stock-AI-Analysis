@@ -4,7 +4,7 @@ import utils
 table=[]
 #file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis.csv"
 file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis2.csv" # testfile
-ofile=r"C:\Personal\Development\Trading\StockAIAnalysis\output.csv"
+ofile=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis_output.csv"
 header = []
 
 table = utils.readtable(file)
