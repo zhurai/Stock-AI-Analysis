@@ -1,8 +1,8 @@
 import csv
 import utils
 
-file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis_output.csv" # testfile
-ofile=r"C:\Personal\Development\Trading\StockAIAnalysis\papertrade-longonly_output.csv"
+file=r"output\analysis_output.csv" # testfile
+ofile=r"output\papertrade-longonly_output.csv"
 table=[]
 header = []
 
