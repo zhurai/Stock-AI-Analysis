@@ -1,3 +1,6 @@
-output.csv
-analysis*.csv
+# ignore cache files
 __pycache__/
+
+# ignore input/output files
+input/
+output/
