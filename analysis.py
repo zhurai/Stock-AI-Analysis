@@ -2,8 +2,8 @@ import csv
 import utils
 
 table=[]
-#file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis.csv"
-file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis2.csv" # testfile
+file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis.csv"
+#file=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis2.csv" # testfile
 ofile=r"C:\Personal\Development\Trading\StockAIAnalysis\analysis_output.csv"
 header = []
 

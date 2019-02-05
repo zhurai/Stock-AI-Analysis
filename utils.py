@@ -21,7 +21,7 @@ def readtable(file):
 
 # DEBUG FUNCTION
 # Table = memory table
-def _outputtable (table):
+def outputtable (table):
     print('\n'.join(map(' '.join, table)))
 
 # READ IN HEADERS
