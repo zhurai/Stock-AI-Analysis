@@ -43,12 +43,12 @@ for index,row in enumerate(table):
     else:
         issure=0
     # if buy signal
-    if issure==1 and buysellratio > 1.0 and priceclose > priceema:
+    if issure==1 and buysellratio > 0.0 and priceclose > priceema:
         isbuy=1
         #print ("buy signal ",end='')
         row.append("BUY")
     # if sell signal
-    elif issure==1 and buysellratio < 1.0 and priceclose < priceema:
+    elif issure==1 and buysellratio < 0.0 and priceclose < priceema:
         issell=1
         #print ("sell signal ",end='')
         row.append("SELL")
