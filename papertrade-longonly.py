@@ -18,7 +18,7 @@ shares=0
 balance=10000
 stop=0
 
-del table[320:]
+#del table[320:]
 
 for index,row in enumerate(table):
     # initialize
@@ -34,7 +34,7 @@ for index,row in enumerate(table):
     low3=float(low3)
     high3=float(high3)
 
-    print(index,date,signal,table[index-1][9],end=' ')
+    #print(index,date,signal,table[index-1][9],end=' ')
 
     if shares > 0 and pricelow < stop:
         # stopped out
@@ -65,18 +65,18 @@ for index,row in enumerate(table):
 
     balance=cash+shares*priceclose
     
-    print (cash,shares,balance,stop, end=' ')
+    #print (cash,shares,balance,stop, end=' ')
     
     row.append(str(cash))
     row.append(str(shares))
     row.append(str(balance))
     row.append(str(stop))
-    print(" ")
+    #print(" ")
 
 
 
 # save file
-#utils.savetable(header,table,ofile)
+utils.savetable(header,table,ofile)
 
 # DEBUG
 #utils.outputtable(table)
