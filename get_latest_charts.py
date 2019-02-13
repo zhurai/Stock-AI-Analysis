@@ -2,7 +2,6 @@ import requests
 import gzip
 import config
 
-
 # CODE FROM https://stackoverflow.com/a/39225039
 # CODE FROM https://github.com/nsadawi/Download-Large-File-From-Google-Drive-Using-Python/blob/master/Download-Large-File-from-Google-Drive.ipynb
 def download_file_from_google_drive(id, destination):
