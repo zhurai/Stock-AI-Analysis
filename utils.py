@@ -1,5 +1,5 @@
 # for various functions to use
-import csv
+import csv    
 
 # READ IN TABLE
 # file = input file
