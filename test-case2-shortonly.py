@@ -35,35 +35,39 @@ for index,row in enumerate(table):
 
     #print("DEBUG: ",index,date,signal,table[index-1][9],end=' ')
 
-    if shares < 0 and pricehigh > stop:
-        # stopped out
-        cash = cash+stop*shares
-        shares=0
-        stop=0
-        #print ("TYPE1",end=' ')
-    elif table[index-1][9] == "NEUTRAL":
+    if index == 0:
         # do nothing
-        #print ("TYPE2",end=' ')
         None
-    elif table[index-1][9] == "BUY" and shares<0:
-        cash=cash+shares*priceopen
-        shares=0
-        stop=0
-        #print ("TYPE3",end=' ')
-    elif table[index-1][9] == "BUY" and shares>=0:
-        # do nothing
-        #print ("TYPE4",end=' ')
-        None
-    elif table[index-1][9] == "SELL" and shares==0:
-        # previously no position, Short
-        shares=-1*balance/priceopen
-        cash=balance-shares*priceopen
-        stop=high3
-        #print ("TYPE5",end=' ')
-    elif table[index-1][9] == "SELL" and shares>0:
-        # not possible, do nothing
-        #print ("TYPE6",end=' ')
-        None
+    else:
+        if shares < 0 and pricehigh > stop:
+            # stopped out
+            cash = cash+stop*shares
+            shares=0
+            stop=0
+            #print ("TYPE1",end=' ')
+        elif table[index-1][9] == "NEUTRAL":
+            # do nothing
+            #print ("TYPE2",end=' ')
+            None
+        elif table[index-1][9] == "BUY" and shares<0:
+            cash=cash+shares*priceopen
+            shares=0
+            stop=0
+            #print ("TYPE3",end=' ')
+        elif table[index-1][9] == "BUY" and shares>=0:
+            # do nothing
+            #print ("TYPE4",end=' ')
+            None
+        elif table[index-1][9] == "SELL" and shares==0:
+            # previously no position, Short
+            shares=-1*balance/priceopen
+            cash=balance-shares*priceopen
+            stop=high3
+            #print ("TYPE5",end=' ')
+        elif table[index-1][9] == "SELL" and shares>0:
+            # not possible, do nothing
+            #print ("TYPE6",end=' ')
+            None
 
     balance=cash+shares*priceclose
     

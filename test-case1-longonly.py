@@ -36,32 +36,36 @@ for index,row in enumerate(table):
 
     #print(index,date,signal,table[index-1][9],end=' ')
 
-    if shares > 0 and pricelow < stop:
-        # stopped out
-        cash = stop*shares
-        shares=0
-        stop=0
-    elif table[index-1][9] == "NEUTRAL":
+    if index == 0:
         # do nothing
         None
-    elif table[index-1][9] == "BUY" and shares==0:
-        # previously no position, buy shares
-        cash=0
-        shares=balance/priceopen
-        stop=low3
-    elif table[index-1][9] == "BUY" and shares>0:
-        # previously long, continue to hold for next day
-        # do nothing
-        None
-    elif table[index-1][9] == "SELL" and shares==0:
-        # previously no position, no trade to do
-        # do nothing
-        None
-    elif table[index-1][9] == "SELL" and shares>0:
-        # sell position
-        cash=priceopen*shares
-        shares=0
-        stop=0
+    else:
+        if shares > 0 and pricelow < stop:
+            # stopped out
+            cash = stop*shares
+            shares=0
+            stop=0
+        elif table[index-1][9] == "NEUTRAL":
+            # do nothing
+            None
+        elif table[index-1][9] == "BUY" and shares==0:
+            # previously no position, buy shares
+            cash=0
+            shares=balance/priceopen
+            stop=low3
+        elif table[index-1][9] == "BUY" and shares>0:
+            # previously long, continue to hold for next day
+            # do nothing
+            None
+        elif table[index-1][9] == "SELL" and shares==0:
+            # previously no position, no trade to do
+            # do nothing
+            None
+        elif table[index-1][9] == "SELL" and shares>0:
+            # sell position
+            cash=priceopen*shares
+            shares=0
+            stop=0
 
     balance=cash+shares*priceclose
     
