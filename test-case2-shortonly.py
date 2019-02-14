@@ -1,5 +1,6 @@
 import csv
 import utils
+import config
 
 file=r"output\analysis_output.csv" # testfile
 ofile=r"output\papertrade-shortonly_output.csv"
@@ -18,8 +19,6 @@ shares=0
 balance=10000
 stop=0
 
-#del table[320:]
-
 for index,row in enumerate(table):
     # initialize
     date,priceopen,pricehigh,pricelow,priceclose,pricevolume,priceema,buysellratio,sureness,signal,low3,high3 = row
@@ -34,42 +33,47 @@ for index,row in enumerate(table):
     low3=float(low3)
     high3=float(high3)
 
-    #print(index,date,signal,table[index-1][9],end=' ')
+    print("DEBUG: ",index,date,signal,table[index-1][9],end=' ')
 
     if shares < 0 and pricehigh > stop:
         # stopped out
         cash = stop*shares
         shares=0
         stop=0
+        print ("TYPE1",end=' ')
     elif table[index-1][9] == "NEUTRAL":
         # do nothing
+        print ("TYPE2",end=' ')
         None
     elif table[index-1][9] == "BUY" and shares<0:
         cash=(cash+shares)/priceopen
         shares=0
         stop=0
+        print ("TYPE3",end=' ')
     elif table[index-1][9] == "BUY" and shares>=0:
-        # previously long, continue to hold for next day
         # do nothing
+        print ("TYPE4",end=' ')
         None
     elif table[index-1][9] == "SELL" and shares==0:
         # previously no position, Short
         shares=-1*balance/priceopen
         cash=balance-shares*priceopen
         stop=high3
+        print ("TYPE5",end=' ')
     elif table[index-1][9] == "SELL" and shares>0:
         # not possible, do nothing
+        print ("TYPE6",end=' ')
         None
 
     balance=cash+shares*priceclose
     
-    #print (cash,shares,balance,stop, end=' ')
+    print (cash,shares,balance,stop, end=' ')
     
     row.append(str(cash))
     row.append(str(shares))
     row.append(str(balance))
     row.append(str(stop))
-    #print(" ")
+    print(" ")
 
 
 
