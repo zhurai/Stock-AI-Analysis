@@ -37,6 +37,7 @@ for index,row in enumerate(table):
 
     #### SIGNALS
 
+    
     # sureness
     if sureness > 0.5:
         issure=1
@@ -57,7 +58,23 @@ for index,row in enumerate(table):
         #print ("no signal ",end='')
         row.append("NEUTRAL")
     #print("")
-
+    '''
+    # if buy signal
+    if buysellratio > 0.0:
+        isbuy=1
+        #print ("buy signal ",end='')
+        row.append("BUY")
+    # if sell signal
+    elif buysellratio < 0.0:
+        issell=1
+        #print ("sell signal ",end='')
+        row.append("SELL")
+    # if neutral signal
+    else:
+        #print ("no signal ",end='')
+        row.append("NEUTRAL")
+    '''
+    
     #### STOP PRICES
     # min=longstop
     # max=shortstop
