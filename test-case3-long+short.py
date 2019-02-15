@@ -68,16 +68,17 @@ for index,row in enumerate(table):
             elif shares == 0:
                 # previously neutral
                 # buy shares
-                #TBD
+                shares=balance/priceopen
+                cash=0
+                stop=low3
             #print ("TYPE3",end=' ')
-        elif table[index-1][9] == "SELL:
+        elif table[index-1][9] == "SELL":
             if shares == 0:
                 # previously no position/neutral
                 # short
-                # FIX/TODO
-                shares=(cash+shares*priceopen)/priceopen
-                cash=0
-                stop=low3
+                shares=-1*(balance/priceopen)
+                cash=balance-shares*priceopen
+                stop=high3
             elif shares < 0:
                 # previously short
                 # No action
@@ -85,7 +86,9 @@ for index,row in enumerate(table):
             elif shares > 0:
                 # previously long
                 # sell shares, then short
-                None
+                cash=shares*priceopen*2
+                shares=-1*shares
+                stop=high3
             #print ("TYPE4",end=' ')
 
     balance=cash+shares*priceclose
