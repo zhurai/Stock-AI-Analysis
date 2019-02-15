@@ -58,6 +58,8 @@ for index,row in enumerate(table):
         #print ("no signal ",end='')
         row.append("NEUTRAL")
     #print("")
+
+    # ALT
     '''
     # if buy signal
     if buysellratio > 0.0:
