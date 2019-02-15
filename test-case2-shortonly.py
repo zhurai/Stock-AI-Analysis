@@ -41,7 +41,7 @@ for index,row in enumerate(table):
     else:
         if shares < 0 and pricehigh > stop:
             # stopped out
-            cash = cash+pricehigh*shares
+            cash = cash+stop*shares
             shares=0
             stop=0
             #print ("TYPE1",end=' ')
