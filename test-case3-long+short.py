@@ -40,34 +40,53 @@ for index,row in enumerate(table):
         None
     else:
         if shares < 0 and pricehigh > stop:
-            # stopped out
+            # stopped out, short case
             cash = cash+stop*shares
             shares=0
             stop=0
             #print ("TYPE1",end=' ')
-        elif table[index-1][9] == "NEUTRAL":
-            # do nothing
-            #print ("TYPE2",end=' ')
-            None
-        elif table[index-1][9] == "BUY" and shares<0:
-            cash=cash+shares*priceopen
+        elif shares > 0 and pricelow < stop:
+            # stopped out, short case
+            cash = stop*shares
             shares=0
             stop=0
-            #print ("TYPE3",end=' ')
-        elif table[index-1][9] == "BUY" and shares>=0:
+            #print ("TYPE2",end=' ')
+        elif table[index-1][9] == "NEUTRAL":
             # do nothing
+            None
+        elif table[index-1][9] == "BUY":
+            if shares <0:
+                # previously short
+                # buy shares to cover short AND buy additional shares
+                shares=(cash+shares*priceopen)/priceopen
+                cash=0
+                stop=low3
+            elif shares > 0:
+                # previously long
+                # No action
+                None
+            elif shares == 0:
+                # previously neutral
+                # buy shares
+                #TBD
+            #print ("TYPE3",end=' ')
+        elif table[index-1][9] == "SELL:
+            if shares == 0:
+                # previously no position/neutral
+                # short
+                # FIX/TODO
+                shares=(cash+shares*priceopen)/priceopen
+                cash=0
+                stop=low3
+            elif shares < 0:
+                # previously short
+                # No action
+                None
+            elif shares > 0:
+                # previously long
+                # sell shares, then short
+                None
             #print ("TYPE4",end=' ')
-            None
-        elif table[index-1][9] == "SELL" and shares==0:
-            # previously no position, Short
-            shares=-1*balance/priceopen
-            cash=balance-shares*priceopen
-            stop=high3
-            #print ("TYPE5",end=' ')
-        elif table[index-1][9] == "SELL" and shares>0:
-            # not possible, do nothing
-            #print ("TYPE6",end=' ')
-            None
 
     balance=cash+shares*priceclose
     
