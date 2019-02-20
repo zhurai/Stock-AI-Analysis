@@ -6,10 +6,11 @@ file=r"input\analysis.csv"
 #file=r"input\analysis2.csv" # testfile
 ofile=r"output\analysis_output.csv"
 header = []
+days = 5
 
 table = utils.readtable(file)
 header = utils.readheaders(file)
-header = utils.appendheaders(header,["Signal","Low 3","High 3"])
+header = utils.appendheaders(header,["Signal","Low "+str(days),"High "+str(days)])
 
 # Date,Open,High,Low,Close,Volume,5-EMA,BuySellRatio,Sureness
 #   0 , 1  , 2  , 3 , 4   ,  5   , 6   ,     7      ,   8
@@ -36,8 +37,7 @@ for index,row in enumerate(table):
     #print(date + " ",end='')
 
     #### SIGNALS
-
-    
+    '''
     # sureness
     if sureness > 0.5:
         issure=1
@@ -75,13 +75,14 @@ for index,row in enumerate(table):
     else:
         #print ("no signal ",end='')
         row.append("NEUTRAL")
-    '''
+    
     
     #### STOP PRICES
     # min=longstop
     # max=shortstop
     # min= low of last 3 days including today
     # max= high of last 3 days including today
+    '''
     low3day = []
     high3day = []
     if index==0:
@@ -95,13 +96,25 @@ for index,row in enumerate(table):
     else:
         low3day = [pricelow,float(table[index-1][3]),float(table[index-2][3])]
         high3day = [pricehigh,float(table[index-1][2]),float(table[index-2][2])]
-    longstop = min(low3day)
-    shortstop = max(high3day)
+    '''
+    lowday = []
+    highday = []
+    # whenever there are lower entries
+    #  we are at the top of the list, can assume we can start at index0
+    if index<days-1:
+        for x in range(0,index+1):
+            lowday.append(float(table[x][3]))
+            highday.append(float(table[x][2]))
+    # same or more index=days
+    else:
+        for x in range(0,days):
+            lowday.append(float(table[index-x][3]))
+            highday.append(float(table[index-x][2]))
+    longstop=min(lowday)
+    shortstop=max(highday)
     row.append(longstop)
     row.append(shortstop)
     
-
-
 # save file
 utils.savetable(header,table,ofile)
         
