@@ -41,19 +41,7 @@ for index,row in enumerate(table):
         # do nothing
         None
     else:
-        if shares < 0 and pricehigh > stop:
-            # stopped out, short case
-            cash = cash+stop*shares
-            shares=0
-            stop=0
-            #print ("TYPE1",end=' ')
-        elif shares > 0 and pricelow < stop:
-            # stopped out, short case
-            cash = stop*shares
-            shares=0
-            stop=0
-            #print ("TYPE2",end=' ')
-        elif table[index-1][9] == "NEUTRAL":
+        if table[index-1][9] == "NEUTRAL":
             # do nothing
             None
         elif table[index-1][9] == "BUY":
@@ -92,6 +80,19 @@ for index,row in enumerate(table):
                 shares=-1*shares
                 stop=high3
             #print ("TYPE4",end=' ')
+
+        if shares < 0 and pricehigh > stop:
+            # stopped out, short case
+            cash = cash+stop*shares
+            shares=0
+            stop=0
+            #print ("TYPE1",end=' ')
+        elif shares > 0 and pricelow < stop:
+            # stopped out, short case
+            cash = stop*shares
+            shares=0
+            stop=0
+            #print ("TYPE2",end=' ')
 
     balance=cash+shares*priceclose
     
