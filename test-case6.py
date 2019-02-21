@@ -66,7 +66,7 @@ for index,row in enumerate(table):
             elif shares > 0:
                 # previously long
                 # fix stop
-                stop=high3
+                stop=low3
             elif shares == 0:
                 # previously neutral
                 # buy shares
@@ -84,7 +84,7 @@ for index,row in enumerate(table):
             elif shares < 0:
                 # previously short
                 # fix stop
-                stop=low3
+                stop=high3
             elif shares > 0:
                 # previously long
                 # sell shares, then short
