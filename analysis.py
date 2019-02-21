@@ -1,16 +1,16 @@
 import csv
 import utils
+import config
 
 table=[]
 file=r"input\analysis.csv"
 #file=r"input\analysis2.csv" # testfile
 ofile=r"output\analysis_output.csv"
 header = []
-days = 5
 
 table = utils.readtable(file)
 header = utils.readheaders(file)
-header = utils.appendheaders(header,["Signal","Low "+str(days),"High "+str(days)])
+header = utils.appendheaders(header,["Signal","Low "+str(config.days),"High "+str(config.days)])
 
 # Date,Open,High,Low,Close,Volume,5-EMA,BuySellRatio,Sureness
 #   0 , 1  , 2  , 3 , 4   ,  5   , 6   ,     7      ,   8
@@ -101,13 +101,13 @@ for index,row in enumerate(table):
     highday = []
     # whenever there are lower entries
     #  we are at the top of the list, can assume we can start at index0
-    if index<days-1:
+    if index<config.days-1:
         for x in range(0,index+1):
             lowday.append(float(table[x][3]))
             highday.append(float(table[x][2]))
     # same or more index=days
     else:
-        for x in range(0,days):
+        for x in range(0,config.days):
             lowday.append(float(table[index-x][3]))
             highday.append(float(table[index-x][2]))
     longstop=min(lowday)
