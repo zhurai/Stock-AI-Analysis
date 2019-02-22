@@ -2,7 +2,7 @@ import csv
 import utils
 import config
 
-table=[]
+table = []
 header = []
 
 localconfig=config.config['ANALYSIS']
@@ -81,8 +81,7 @@ for index,row in enumerate(table):
     # max=shortstop
     lowday = []
     highday = []
-    # whenever there are lower entries
-    #  we are at the top of the list, can assume we can start at index0
+    
     if localconfig.getboolean('highlowinclusive') == True:
         if index < days-1:
             for x in range(0,index+1):
@@ -93,23 +92,24 @@ for index,row in enumerate(table):
             for x in range(0,days):
                 lowday.append(float(table[index-x][3]))
                 highday.append(float(table[index-x][2]))
-        longstop=min(lowday)
-        shortstop=max(highday)
-        row.append(longstop)
-        row.append(shortstop)
     else: # highlowinclusive=false
         if index == 0:
             # use current day
             lowday.append(pricelow)
             highday.append(pricehigh)
-        elif index<config.days:
+        elif index<days:
             for x in range(0,index):
                 lowday.append(float(table[x][3]))
                 highday.append(float(table[x][2]))
         else:
-            for x in range(0,config.days):
+            for x in range(0,days):
                 lowday.append(float(table[index-x-1][3]))
                 highday.append(float(table[index-x-1][2]))
+    
+    longstop=min(lowday)
+    shortstop=max(highday)
+    row.append(longstop)
+    row.append(shortstop)
         
 # save file
 utils.savetable(header,table,ofile)
