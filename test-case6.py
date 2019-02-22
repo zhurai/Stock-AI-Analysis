@@ -2,12 +2,14 @@ import csv
 import utils
 import config
 
-# long and short
-
-file=r"output\analysis_output.csv" # testfile
-ofile=r"output\testcase6.csv"
-table=[]
+table = []
 header = []
+
+localconfig=config.config['TEST']
+file=config.config['INPUT']['tfile']
+ofile='output\\' + utils.getfilename() + '.csv'
+if localconfig['file'] != "filename":
+    ofile=localconfig['file']
 
 table = utils.readtable(file)
 header = utils.readheaders(file)
