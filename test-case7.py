@@ -56,8 +56,8 @@ for index,row in enumerate(table):
                     cash=0
                     stop=low3
                 else:
+                    cash=cash+(shares*priceopen)
                     shares=0
-                    cash=shares*priceopen
                     stop=0
             elif shares > 0:
                 # previously long
