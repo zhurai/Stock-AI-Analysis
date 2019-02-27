@@ -7,13 +7,16 @@ header = []
 
 localconfig=config.config['TEST']
 file=config.config['INPUT']['tfile']
-ofile='output\\' + utils.getfilename() + '.csv'
+ofile='output\\' + utils.getfilename() + '.csv' 
+#ofile2='output\\' + utils.getfilename() + '.log.csv'
 if localconfig['file'] != "filename":
     ofile=localconfig['file']
 
 table = utils.readtable(file)
 header = utils.readheaders(file)
 header = utils.appendheaders(header,["Cash","Shares","Balance","Stop","Action","Trades","Holding Days","Profit"])
+#header2 = ['Date','Action','Days','Action','Days']
+#table2 = []
 
 # Date,Open,High,Low,Close,Volume,5-EMA,BuySellRatio,Sureness,Signal,Low3, High3, Cash, Shares, Balance, Stop
 #   0 , 1  , 2  , 3 , 4   ,  5   , 6   ,     7      ,   8    , 9    , 10,  11   ,  12,  13    ,  14    ,  15 
@@ -58,6 +61,7 @@ for index,row in enumerate(table):
     sureness=float(sureness)
     low3=float(low3)
     high3=float(high3)
+    row2=[]
 
     #print("DEBUG: ",index,date,signal,table[index-1][9],end=' ')
 
@@ -167,11 +171,14 @@ for index,row in enumerate(table):
     row.append(str(shares))
     row.append(str(balance))
     row.append(str(stop))
-    row.append(str(action))
     row.append(str(trades))
-    row.append(str(holdingdays))
     row.append(str(profit))
 
+    #row2.append(date)
+    #row2.append(str(action))
+    #row2.append(str(holdingdays))
+    #table2.append(row2)
+    
     action=''
     trades=0
     #print(" ")
@@ -180,6 +187,9 @@ for index,row in enumerate(table):
 
 # save file
 utils.savetable(header,table,ofile)
+
+# save file 2
+utils.savetable(header2,table2,ofile2)
 
 # DEBUG
 #utils.outputtable(table)
