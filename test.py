@@ -18,9 +18,6 @@ header = utils.appendheaders(header,["Cash","Shares","Balance","Stop","Trades"])
 #header2 = ['Date','Action','Days','Profit']
 #table2 = []
 
-# Date,Open,High,Low,Close,Volume,5-EMA,BuySellRatio,Sureness,Signal,Low3, High3, Cash, Shares, Balance, Stop
-#   0 , 1  , 2  , 3 , 4   ,  5   , 6   ,     7      ,   8    , 9    , 10,  11   ,  12,  13    ,  14    ,  15 
-
 # Date,Open,High,Low,Close,Volume,EMA,EMAge,HiLer,Cler,TrapCode,emaRatio,BuySellRatio,emaBuySellRatio,HiLer,Cler,TrapRatio,BAR,HLBar,Sureness  || Signal,Low3, High3, Cash, Shares, Balance, Stop
 #  0    1   2     3   4      5     6   7     8     9      10     11         12              13         14    15    16       17  18     19           20   21     22      23   24       25      26
 
@@ -89,12 +86,30 @@ for index,row in enumerate(table):
     else:
         
         if table[index-1][20] == "NEUTRAL":
+            # Neutral
+            # set stop
+            if localconfig.getboolean('stop'):
+                if localconfig.getint('stop_type') == 1:
+                    if shares > 0:
+                        # long
+                        if priceopen < low3:
+                            stop=priceopen
+                        else:
+                            stop=low3
+                    elif shares < 0:
+                        # short
+                        if priceopen > high3:
+                            stop=priceopen
+                        else:
+                            stop=high3
+            
             # do nothing
             # <N>
             action=action+''
             days=days+1
             holdingdays=holdingdays+1
-            None
+
+
         elif table[index-1][20] == "BUY":
             # LONG
             
@@ -136,11 +151,6 @@ for index,row in enumerate(table):
                 # fix stop
                 # <>
                 action=action+''
-                if localconfig.getint('stop_type') == 1 and localconfig.getboolean('stop'):
-                    if priceopen < low3:
-                        stop=priceopen
-                    else:
-                        stop=low3
                 holdingdays=holdingdays+1
             elif shares == 0:
                 # previously neutral
@@ -149,11 +159,6 @@ for index,row in enumerate(table):
                 action=action+'NL'
                 shares=balance/priceopen
                 cash=0
-                if localconfig.getboolean('stop'):
-                    if priceopen < low3:
-                        stop=priceopen
-                    else:
-                        stop=low3
                 trades=trades+1
             #print ("TYPE3",end=' ')
             
@@ -167,12 +172,13 @@ for index,row in enumerate(table):
                         if priceopen > high3:
                             stop=priceopen
                         else:
-                            stop=low3
+                            stop=high3
+
                 else:
                     if priceopen > high3:
                         stop=priceopen
                     else:
-                        stop=low3
+                        stop=high3
 
 
 
