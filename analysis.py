@@ -51,7 +51,7 @@ for index,row in enumerate(table):
 
     #### SIGNALS
     if localconfig.getint('signal_type') == 1:
-        # Original Setup:
+        # "Original" Setup
         if sureness > 0.5:
             issure=1
         else:
@@ -59,29 +59,30 @@ for index,row in enumerate(table):
         #  Sureness > 0.5, BSR > 0.0, Close > EMA
         if issure==1 and buysellratio > 0.0 and priceclose > priceema:
             isbuy=1
-            #print ("buy signal ",end='')
             row.append("BUY")
         #  Sureness > 0.5, BSR < 0.0, Close < EMA
         elif issure==1 and buysellratio < 0.0 and priceclose < priceema:
             issell=1
-            #print ("sell signal ",end='')
             row.append("SELL")
         else:
-            #print ("no signal ",end='')
             row.append("NEUTRAL")
-        #print("")
     elif localconfig.getint('signal_type') == 2:
-        # Edited Setup: (Just BSR)
         if buysellratio > 0.0:
             isbuy=1
-            #print ("buy signal ",end='')
             row.append("BUY")
         elif buysellratio < 0.0:
             issell=1
-            #print ("sell signal ",end='')
             row.append("SELL")
         else:
-            #print ("no signal ",end='')
+            row.append("NEUTRAL")
+    elif localconfig.getint('signal_type') == 3:
+        if emaratio > 0.0 and buysellratio > 0.0 and emabuysellratio > 0.0:
+            isbuy=1
+            row.append("BUY")
+        elif emaratio < 0.0 and buysellratio < 0.0 and emabuysellratio < 0.0:
+            issell=1
+            row.append("SELL")
+        else:
             row.append("NEUTRAL")
     else:
         # No Signal Type Loaded
