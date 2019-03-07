@@ -15,11 +15,14 @@ if localconfig['file'] != "filename":
 table = utils.readtable(file)
 header = utils.readheaders(file)
 header = utils.appendheaders(header,["Cash","Shares","Balance","Stop","Trades"])
-header2 = ['Date','Action','Days','Profit']
-table2 = []
+#header2 = ['Date','Action','Days','Profit']
+#table2 = []
 
 # Date,Open,High,Low,Close,Volume,5-EMA,BuySellRatio,Sureness,Signal,Low3, High3, Cash, Shares, Balance, Stop
 #   0 , 1  , 2  , 3 , 4   ,  5   , 6   ,     7      ,   8    , 9    , 10,  11   ,  12,  13    ,  14    ,  15 
+
+# Date,Open,High,Low,Close,Volume,EMA,EMAge,HiLer,Cler,TrapCode,emaRatio,BuySellRatio,emaBuySellRatio,HiLer,Cler,TrapRatio,BAR,HLBar,Sureness  || Signal,Low3, High3, Cash, Shares, Balance, Stop
+#  0    1   2     3   4      5     6   7     8     9      10     11         12              13         14    15    16       17  18     19           20   21     22      23   24       25      26
 
 cash=10000
 shares=0
@@ -30,6 +33,7 @@ trades=0
 holdingdays=0
 profit=0
 balance2=0
+days=0
 
 '''
 Profit()=Balance()-Prv_balance
@@ -51,20 +55,31 @@ Prv_balance=Balance()
 
 for index,row in enumerate(table):
     # initialize
-    date,priceopen,pricehigh,pricelow,priceclose,pricevolume,priceema,buysellratio,sureness,signal,low3,high3 = row
+    date,priceopen,pricehigh,pricelow,priceclose,pricevolume,priceema,emaage,hiler0,cler0,trapcode,emaratio,buysellratio,emabuysellratio,hiler,cler,trapratio,bar,hlbar,sureness,signal,low3,high3 = row
     priceopen=float(priceopen)
     pricehigh=float(pricehigh)
     pricelow=float(pricelow)
     priceclose=float(priceclose)
     pricevolume=float(pricevolume)
     priceema=float(priceema)
+    emaage=float(emaage)
+    hiler0=float(hiler0)
+    cler0=float(cler0)
+    trapcode=float(trapcode)
+    emaratio=float(emaratio)
     buysellratio=float(buysellratio)
+    emabuysellratio=float(emabuysellratio)
+    hiler=float(hiler)
+    cler=float(cler)
+    trapratio=float(trapratio)
+    bar=float(bar)
+    hlbar=float(hlbar)
     sureness=float(sureness)
     low3=float(low3)
     high3=float(high3)
     row2=[]
 
-    print("DEBUG: ",index,date,signal,table[index-1][9],end=' ')
+    #print("DEBUG: ",index,date,signal,table[index-1][20],end=' ')
 
     if index == 0:
         # do nothing
@@ -73,14 +88,14 @@ for index,row in enumerate(table):
         None
     else:
         
-        if table[index-1][9] == "NEUTRAL":
+        if table[index-1][20] == "NEUTRAL":
             # do nothing
             # <N>
             action=action+''
             days=days+1
             holdingdays=holdingdays+1
             None
-        elif table[index-1][9] == "BUY":
+        elif table[index-1][20] == "BUY":
             # LONG
             
             # set stop
@@ -104,11 +119,11 @@ for index,row in enumerate(table):
                 # <SL>
                 action=action+'SL'
                 holdingdays=holdingdays+1
-                row2.append(date)
-                row2.append(str(action))
-                row2.append(str(holdingdays))
-                row2.append(str(profit))
-                table2.append(row2)
+                #row2.append(date)
+                #row2.append(str(action))
+                #row2.append(str(holdingdays))
+                #row2.append(str(profit))
+                #table2.append(row2)
                 shares=(cash+shares*priceopen)/priceopen
                 cash=0
 
@@ -140,9 +155,9 @@ for index,row in enumerate(table):
                     else:
                         stop=low3
                 trades=trades+1
-            print ("TYPE3",end=' ')
+            #print ("TYPE3",end=' ')
             
-        elif table[index-1][9] == "SELL":
+        elif table[index-1][20] == "SELL":
             # SHORT
             
             # set stop
@@ -181,18 +196,18 @@ for index,row in enumerate(table):
                 # LS
                 action=action+'LS'
                 holdingdays=holdingdays+1
-                row2.append(date)
-                row2.append(str(action))
-                row2.append(str(holdingdays))
-                row2.append(str(profit))
-                table2.append(row2)
+                #row2.append(date)
+                #row2.append(str(action))
+                #row2.append(str(holdingdays))
+                #row2.append(str(profit))
+                #table2.append(row2)
                 cash=shares*priceopen*2
                 shares=-1*shares
                 trades=trades+1
                 action=''
                 holdingdays=0
                 profit=0
-            print ("TYPE4",end=' ')
+            #print ("TYPE4",end=' ')
 
         # Check if Stopped Out
         if shares < 0 and pricehigh > stop and localconfig.getboolean('stop'):
@@ -205,13 +220,13 @@ for index,row in enumerate(table):
             cash = cash+stop*shares
             shares=0
             stop=0
-            print ("TYPE1",end=' ')
+            #print ("TYPE1",end=' ')
             trades=trades+1
-            row2.append(date)
-            row2.append(str(action))
-            row2.append(str(holdingdays))
-            row2.append(str(profit))
-            table2.append(row2)
+            #row2.append(date)
+            #row2.append(str(action))
+            #row2.append(str(holdingdays))
+            #row2.append(str(profit))
+            #table2.append(row2)
             action=''
             holdingdays=0
             profit=0
@@ -225,13 +240,13 @@ for index,row in enumerate(table):
             cash = stop*shares
             shares=0
             stop=0
-            print ("TYPE2",end=' ')
+            #print ("TYPE2",end=' ')
             trades=trades+1
-            row2.append(date)
-            row2.append(str(action))
-            row2.append(str(holdingdays))
-            row2.append(str(profit))
-            table2.append(row2)
+            #row2.append(date)
+            #row2.append(str(action))
+            #row2.append(str(holdingdays))
+            #row2.append(str(profit))
+            #table2.append(row2)
             action=''
             holdingdays=0
             profit=0
@@ -239,7 +254,7 @@ for index,row in enumerate(table):
             
     balance=cash+shares*priceclose
     
-    print (cash,shares,balance,stop, end=' ')
+    #print (cash,shares,balance,stop, end=' ')
     
     row.append(str(cash))
     row.append(str(shares))
@@ -249,7 +264,7 @@ for index,row in enumerate(table):
     
     #action=''
     trades=0
-    print(" ")
+    #print(" ")
 
 
 
@@ -257,7 +272,7 @@ for index,row in enumerate(table):
 utils.savetable(header,table,ofile)
 
 # save file 2
-utils.savetable(header2,table2,ofile2)
+#utils.savetable(header2,table2,ofile2)
 
 # DEBUG
 #utils.outputtable(table)
