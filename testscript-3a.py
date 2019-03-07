@@ -4,8 +4,7 @@ import config
 # override default ANALYSIS settings
 config.config['ANALYSIS']['days']='3'
 config.config['ANALYSIS']['highlowinclusive']='false'
-config.config['ANALYSIS']['signal_original']='true'
-config.config['ANALYSIS']['signal_buysellratio_only']='false'
+config.config['ANALYSIS']['signal_type']='1'
 
 import analysis
 #analysis.main()
