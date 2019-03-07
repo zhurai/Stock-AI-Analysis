@@ -16,21 +16,30 @@ table = utils.readtable(file)
 header = utils.readheaders(file)
 header = utils.appendheaders(header,["Signal","Low "+str(days),"High "+str(days)])
 
-# Date,Open,High,Low,Close,Volume,5-EMA,BuySellRatio,Sureness
-#   0 , 1  , 2  , 3 , 4   ,  5   , 6   ,     7      ,   8
-# Buy Signal = BuySellRatio > 1 && Sureness > 0.5 && Close > 5-EMA
-# Sell Signal = BuySellRatio < 1 && Sureness > 0.5 && Close < 5-EMA
+# Date,Open,High,Low,Close,Volume,EMA,EMAge,HiLer,Cler,TrapCode,emaRatio,BuySellRatio,emaBuySellRatio,HiLer,Cler,TrapRatio,BAR,HLBar,Sureness 
+#  0    1   2     3   4      5     6   7     8     9      10     11         12              13         14    15    16       17  18     19
 
 for index,row in enumerate(table):
     # initialize
-    date,priceopen,pricehigh,pricelow,priceclose,pricevolume,priceema,buysellratio,sureness = row
+    date,priceopen,pricehigh,pricelow,priceclose,pricevolume,priceema,emaage,hiler0,cler0,trapcode,emaratio,buysellratio,emabuysellratio,hiler,cler,trapratio,bar,hlbar,sureness = row
     priceopen=float(priceopen)
     pricehigh=float(pricehigh)
     pricelow=float(pricelow)
     priceclose=float(priceclose)
     pricevolume=float(pricevolume)
     priceema=float(priceema)
+    emaage=float(emaage)
+    hiler0=float(hiler0)
+    cler0=float(cler0)
+    trapcode=float(trapcode)
+    emaratio=float(emaratio)
     buysellratio=float(buysellratio)
+    emabuysellratio=float(emabuysellratio)
+    hiler=float(hiler)
+    cler=float(cler)
+    trapratio=float(trapratio)
+    bar=float(bar)
+    hlbar=float(hlbar)
     sureness=float(sureness)
 
     issure=0
@@ -110,7 +119,7 @@ for index,row in enumerate(table):
     shortstop=max(highday)
     row.append(longstop)
     row.append(shortstop)
-        
+
 # save file
 utils.savetable(header,table,ofile)
         
