@@ -50,7 +50,7 @@ for index,row in enumerate(table):
     #print(date + " ",end='')
 
     #### SIGNALS
-    if localconfig.getboolean('signal_original') == True:
+    if localconfig.getint('signal_type') == 1:
         # Original Setup:
         if sureness > 0.5:
             issure=1
@@ -70,7 +70,7 @@ for index,row in enumerate(table):
             #print ("no signal ",end='')
             row.append("NEUTRAL")
         #print("")
-    elif localconfig.getboolean('signal_buysellratio_only') == True:
+    elif localconfig.getint('signal_type') == 2:
         # Edited Setup: (Just BSR)
         if buysellratio > 0.0:
             isbuy=1
@@ -83,6 +83,9 @@ for index,row in enumerate(table):
         else:
             #print ("no signal ",end='')
             row.append("NEUTRAL")
+    else:
+        # No Signal Type Loaded
+        row.append("NEUTRAL")
     
     
     #### STOP PRICES
