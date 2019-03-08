@@ -123,6 +123,7 @@ for index,row in enumerate(table):
                     action=action+'SL'
                 dailyaction=dailyaction+'SL'
                 holdingdays=holdingdays+1
+                balance=cash+shares*priceopen
                 profit=balance-balance2
                 row2.append(boughtdate)
                 row2.append(date)
@@ -208,6 +209,7 @@ for index,row in enumerate(table):
                     action=action+'LS'
                 dailyaction=dailyaction+'LS'
                 holdingdays=holdingdays+1
+                balance=cash+shares*priceopen
                 profit=balance-balance2
                 row2.append(boughtdate)
                 row2.append(date)
@@ -242,6 +244,7 @@ for index,row in enumerate(table):
             cash = cash+stop*shares
             shares=0
             stop=0
+            balance=cash+shares*stop
             profit=balance-balance2
             #print ("TYPE1",end=' ')
             trades=trades+1
@@ -269,6 +272,7 @@ for index,row in enumerate(table):
             cash = stop*shares
             shares=0
             stop=0
+            balance=cash+shares*stop
             profit=balance-balance2
             #print ("TYPE2",end=' ')
             trades=trades+1
