@@ -43,7 +43,8 @@ def main():
     filename=[]
 
     # get list of csv gdrive id's
-    csvidlist.append(localconfig['spx500'])
+    for item in config.config['EXTERNAL'].values():
+        csvidlist.append(item)
     
     # get their filenames
     for item in csvidlist:
