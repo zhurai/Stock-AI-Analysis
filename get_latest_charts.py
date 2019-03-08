@@ -8,7 +8,6 @@ def download_file_from_google_drive(id, destination):
     URL = "https://docs.google.com/uc?export=download"
 
     session = requests.Session()
-
     response = session.get(URL, params = { 'id' : id }, stream = True)
     token = get_confirm_token(response)
 
@@ -31,7 +30,7 @@ def get_confirm_token(response):
 # CODE FROM https://github.com/nsadawi/Download-Large-File-From-Google-Drive-Using-Python/blob/master/Download-Large-File-from-Google-Drive.ipynb
 def save_response_content(response, destination):
     CHUNK_SIZE = 32768
-
+    
     with open(destination, "wb") as f:
         for chunk in response.iter_content(CHUNK_SIZE):
             if chunk: # filter out keep-alive new chunks
@@ -39,14 +38,28 @@ def save_response_content(response, destination):
 
 # Download csv.gz and write a new file
 def main():
-    # download the csv.gz from google drive
-    download_file_from_google_drive(config.config['GOOGLEAPI']['dbid'], config.config['GOOGLEAPI']['file']+".gz")
+    localconfig=config.config['EXTERNAL']
+    csvidlist=[]
+    filename=[]
 
-    # write the new file per line in gzip
-    with gzip.open(config.config['GOOGLEAPI']['file']+".gz",'rt') as f:
-        with open(config.config['GOOGLEAPI']['file'],'w') as f2:
-            for line in f:
-                f2.write(line)
+    # get list of csv gdrive id's
+    csvidlist.append(localconfig['spx500'])
+    
+    # get their filenames
+    for item in csvidlist:
+        r=requests.get("https://www.googleapis.com/drive/v3/files/"+item+"?key="+localconfig['gdrivekey']) 
+        filename.append(r.json()['name'])
+
+    for index,item in enumerate(csvidlist):
+        # dl csv.gz from gdrive to input/gzip/*
+        download_file_from_google_drive(item, localconfig['localfoldergz']+filename[index])
+
+        # ungzip the csv.gz in input/gzip/*.csv.gz to input/*.csv
+        with gzip.open(localconfig['localfoldergz']+filename[index],'rt') as f:
+            with open(localconfig['localfolder']+filename[index][:-3],'w') as f2:
+                for line in f:
+                    f2.write(line)
 
 # Run main()
-main()
+if __name__ == "__main__":
+    main()
