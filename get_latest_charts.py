@@ -40,11 +40,11 @@ def save_response_content(response, destination):
 # Download csv.gz and write a new file
 def main():
     # download the csv.gz from google drive
-    download_file_from_google_drive(config.gdrivecsvid, config.inputfile+".gz")
+    download_file_from_google_drive(config.config['GOOGLEAPI']['dbid'], config.config['GOOGLEAPI']['file']+".gz")
 
     # write the new file per line in gzip
-    with gzip.open(config.inputfile+".gz",'rt') as f:
-        with open(config.inputfile,'w') as f2:
+    with gzip.open(config.config['GOOGLEAPI']['file']+".gz",'rt') as f:
+        with open(config.config['GOOGLEAPI']['file'],'w') as f2:
             for line in f:
                 f2.write(line)
 
