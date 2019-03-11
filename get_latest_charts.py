@@ -1,6 +1,7 @@
 import requests
 import gzip
 import config
+import utils
 
 # CODE FROM https://stackoverflow.com/a/39225039
 # CODE FROM https://github.com/nsadawi/Download-Large-File-From-Google-Drive-Using-Python/blob/master/Download-Large-File-from-Google-Drive.ipynb
@@ -43,7 +44,7 @@ def main():
     filename=[]
 
     # get list of csv gdrive id's
-    for item in config.config['EXTERNAL'].values():
+    for item in config.config['EXTERNALLIST'].values():
         csvidlist.append(item)
     
     # get their filenames
