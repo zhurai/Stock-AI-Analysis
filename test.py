@@ -14,9 +14,9 @@ if localconfig['file'] != "filename":
 
 table = utils.readtable(file)
 header = utils.readheaders(file)
-header = utils.appendheaders(header,["Cash","Shares","Balance","Stop","Trades"])
-#header2 = ['Date','Action','Days','Profit']
-#table2 = []
+header = utils.appendheaders(header,["Cash","Shares","Balance","Stop","Trades","Action"])
+header2 = ['Buy Date','Sell Date','Action','Days','Profit']
+table2 = []
 
 # Date,Open,High,Low,Close,Volume,EMA,EMAge,HiLer,Cler,TrapCode,emaRatio,BuySellRatio,emaBuySellRatio,HiLer,Cler,TrapRatio,BAR,HLBar,Sureness  || Signal,Low3, High3, Cash, Shares, Balance, Stop
 #  0    1   2     3   4      5     6   7     8     9      10     11         12              13         14    15    16       17  18     19           20   21     22      23   24       25      26
@@ -26,29 +26,13 @@ shares=0
 balance=10000
 stop=0
 action=''
+dailyaction=''
 trades=0
 holdingdays=0
 profit=0
 balance2=0
 days=0
-
-'''
-Profit()=Balance()-Prv_balance
-Days=action_days;
-Prv_balance=0;
-action_days=0;
-stop=0
-
-...
-
-action_days=action_days+1
-
-...
-
-when you start a transaction:
-action_days=0
-Prv_balance=Balance()
-'''
+boughtdate=''
 
 for index,row in enumerate(table):
     # initialize
@@ -106,6 +90,7 @@ for index,row in enumerate(table):
             # do nothing
             # <N>
             action=action+''
+            dailyaction=dailyaction+''
             days=days+1
             holdingdays=holdingdays+1
 
@@ -132,18 +117,28 @@ for index,row in enumerate(table):
                 # previously short
                 # buy shares to cover short AND buy additional shares
                 # <SL>
-                action=action+'SL'
+                if 'S' in action:
+                    action=action+'L'
+                else:
+                    action=action+'SL'
+                dailyaction=dailyaction+'SL'
                 holdingdays=holdingdays+1
-                #row2.append(date)
-                #row2.append(str(action))
-                #row2.append(str(holdingdays))
-                #row2.append(str(profit))
-                #table2.append(row2)
+                balance=cash+shares*priceopen
+                profit=balance-balance2
+                row2.append(boughtdate)
+                row2.append(date)
+                row2.append(str(action))
+                row2.append(str(holdingdays))
+                row2.append(str(profit))
+                table2.append(row2)
+                row2=[]
                 shares=(cash+shares*priceopen)/priceopen
                 cash=0
 
                 trades=trades+1
                 action=''
+                balance2=balance
+                boughtdate=date
                 holdingdays=0
                 profit=0
             elif shares > 0:
@@ -151,15 +146,19 @@ for index,row in enumerate(table):
                 # fix stop
                 # <>
                 action=action+''
+                dailyaction=dailyaction+''
                 holdingdays=holdingdays+1
             elif shares == 0:
                 # previously neutral
                 # buy shares
                 # <NL>
                 action=action+'NL'
+                dailyaction=dailyaction+'NL'
                 shares=balance/priceopen
                 cash=0
                 trades=trades+1
+                balance2=balance
+                boughtdate=date
             #print ("TYPE3",end=' ')
             
         elif table[index-1][20] == "SELL":
@@ -187,32 +186,47 @@ for index,row in enumerate(table):
                 # short
                 # <NS>
                 action=action+'NS'
+                dailyaction=dailyaction+'NS'
                 shares=-1*(balance/priceopen)
                 cash=balance-shares*priceopen
+                balance2=balance
+                boughtdate=date
                 trades=trades+1
             elif shares < 0:
                 # previously short
                 # fix stop
                 # <>
                 action=action+''
+                dailyaction=dailyaction+''
                 holdingdays=holdingdays+1
             elif shares > 0:
                 # previously long
                 # sell shares, then short
                 # LS
-                action=action+'LS'
+                if 'L' in action:
+                    action=action+'S'
+                else:
+                    action=action+'LS'
+                dailyaction=dailyaction+'LS'
                 holdingdays=holdingdays+1
-                #row2.append(date)
-                #row2.append(str(action))
-                #row2.append(str(holdingdays))
-                #row2.append(str(profit))
-                #table2.append(row2)
+                balance=cash+shares*priceopen
+                profit=balance-balance2
+                row2.append(boughtdate)
+                row2.append(date)
+                row2.append(str(action))
+                row2.append(str(holdingdays))
+                row2.append(str(profit))
+                table2.append(row2)
+                row2=[]
+                
                 cash=shares*priceopen*2
                 shares=-1*shares
                 trades=trades+1
                 action=''
                 holdingdays=0
                 profit=0
+                balance2=balance
+                boughtdate=date
             #print ("TYPE4",end=' ')
 
         # Check if Stopped Out
@@ -223,16 +237,24 @@ for index,row in enumerate(table):
                 action=action+'T'
             else:
                 action=action+'ST'
+            if 'S' in dailyaction:
+                dailyaction=dailyaction+'T'
+            else:
+                dailyaction=dailyaction+'ST'
             cash = cash+stop*shares
             shares=0
             stop=0
+            balance=cash+shares*stop
+            profit=balance-balance2
             #print ("TYPE1",end=' ')
             trades=trades+1
-            #row2.append(date)
-            #row2.append(str(action))
-            #row2.append(str(holdingdays))
-            #row2.append(str(profit))
-            #table2.append(row2)
+            row2.append(boughtdate)
+            row2.append(date)
+            row2.append(str(action))
+            row2.append(str(holdingdays))
+            row2.append(str(profit))
+            table2.append(row2)
+            row2=[]
             action=''
             holdingdays=0
             profit=0
@@ -243,16 +265,24 @@ for index,row in enumerate(table):
                 action=action+'T'
             else:
                 action=action+'LT'
+            if 'L' in dailyaction:
+                dailyaction=dailyaction+'T'
+            else:
+                dailyaction=dailyaction+'LT'
             cash = stop*shares
             shares=0
             stop=0
+            balance=cash+shares*stop
+            profit=balance-balance2
             #print ("TYPE2",end=' ')
             trades=trades+1
-            #row2.append(date)
-            #row2.append(str(action))
-            #row2.append(str(holdingdays))
-            #row2.append(str(profit))
-            #table2.append(row2)
+            row2.append(boughtdate)
+            row2.append(date)
+            row2.append(str(action))
+            row2.append(str(holdingdays))
+            row2.append(str(profit))
+            table2.append(row2)
+            row2=[]
             action=''
             holdingdays=0
             profit=0
@@ -267,6 +297,8 @@ for index,row in enumerate(table):
     row.append(str(balance))
     row.append(str(stop))
     row.append(str(trades))
+    row.append(str(dailyaction))
+    dailyaction=''
     
     #action=''
     trades=0
@@ -278,8 +310,8 @@ for index,row in enumerate(table):
 utils.savetable(header,table,ofile)
 
 # save file 2
-#utils.savetable(header2,table2,ofile2)
+utils.savetable(header2,table2,ofile2)
 
 # DEBUG
 #utils.outputtable(table)
-
+#utils.outputtable(table2)
