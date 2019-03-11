@@ -76,4 +76,22 @@ def savetable(header,table,file):
         for row in table:
             write.writerow(row)
 
+	
+############################################################################################
+#### INTRO RELATED
 
+def main():
+    # check if folders are created so I don't have to manually do it in a new import
+    import os
+
+    if not os.path.exists("input"):
+        os.makedirs("input")
+
+    if not os.path.exists("output"):
+        os.makedirs("output")
+
+    if not os.path.exists("input/gzip"):
+        os.makedirs("input/gzip")
+
+# run main() when imported
+main()
