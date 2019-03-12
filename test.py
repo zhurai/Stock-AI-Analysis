@@ -130,6 +130,7 @@ for index,row in enumerate(table):
                 row2.append(str(action))
                 row2.append(str(holdingdays))
                 row2.append(str(profit))
+                row2.append(str(balance))
                 table2.append(row2)
                 row2=[]
                 shares=(cash+shares*priceopen)/priceopen
@@ -216,6 +217,7 @@ for index,row in enumerate(table):
                 row2.append(str(action))
                 row2.append(str(holdingdays))
                 row2.append(str(profit))
+                row2.append(str(balance))
                 table2.append(row2)
                 row2=[]
                 
@@ -253,6 +255,7 @@ for index,row in enumerate(table):
             row2.append(str(action))
             row2.append(str(holdingdays))
             row2.append(str(profit))
+            row2.append(str(balance))
             table2.append(row2)
             row2=[]
             action=''
@@ -281,6 +284,7 @@ for index,row in enumerate(table):
             row2.append(str(action))
             row2.append(str(holdingdays))
             row2.append(str(profit))
+            row2.append(str(balance))
             table2.append(row2)
             row2=[]
             action=''
