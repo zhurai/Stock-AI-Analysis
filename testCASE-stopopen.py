@@ -58,7 +58,8 @@ for index,row in enumerate(table):
     sureness=float(sureness)
     low3=float(low3)
     high3=float(high3)
-    row2=[]
+    previousclose=0
+
 
     #print("DEBUG: ",index,date,signal,table[index-1][20],end=' ')
 
@@ -68,24 +69,24 @@ for index,row in enumerate(table):
         action=action+''
         None
     else:
+        previousclose=float(table[index-1][5]
         
         if table[index-1][20] == "NEUTRAL":
             # Neutral
             # set stop
             if localconfig.getboolean('stop'):
-                if localconfig.getint('stop_type') == 1:
-                    if shares > 0:
-                        # long
-                        if priceopen < low3:
-                            stop=priceopen
-                        else:
-                            stop=low3
-                    elif shares < 0:
-                        # short
-                        if priceopen > high3:
-                            stop=priceopen
-                        else:
-                            stop=high3
+                if shares > 0:
+                    # if open > previous close & long
+                    if priceopen > previousclose:
+                        stop=priceopen
+                    else:
+                        stop=low3
+                elif shares < 0:
+                    # if open < previous close & short
+                    if priceopen < previousclose:
+                        stop=priceopen
+                    else:
+                        stop=high3
             
             # do nothing
             # <N>
@@ -101,11 +102,11 @@ for index,row in enumerate(table):
             # set stop
             if localconfig.getboolean('stop'):
                 if shares > 0:
-                    if localconfig.getint('stop_type') == 1:
-                        if priceopen < low3:
-                            stop=priceopen
-                        else:
-                            stop=low3
+                    # if open > previous close & long
+                    if priceopen > previousclose:
+                        stop=priceopen
+                    else:
+                        stop=low3
                 else:
                     if priceopen < low3:
                         stop=priceopen
@@ -168,11 +169,11 @@ for index,row in enumerate(table):
             # set stop
             if localconfig.getboolean('stop'):
                 if shares < 0:
-                    if localconfig.getint('stop_type') == 1:
-                        if priceopen > high3:
-                            stop=priceopen
-                        else:
-                            stop=high3
+                    # if open < previous close & short
+                    if priceopen < previousclose:
+                        stop=priceopen
+                    else:
+                        stop=high3
 
                 else:
                     if priceopen > high3:
