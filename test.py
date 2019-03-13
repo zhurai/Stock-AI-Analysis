@@ -15,7 +15,7 @@ if localconfig['file'] != "filename":
 table = utils.readtable(file)
 header = utils.readheaders(file)
 header = utils.appendheaders(header,["Cash","Shares","Balance","Stop","Trades","Action"])
-header2 = ['Buy Date','Sell Date','Action','Days','Profit']
+header2 = ['Buy Date','Sell Date','Action','Days','Profit','Balance','Profit%']
 table2 = []
 
 # Date,Open,High,Low,Close,Volume,EMA,EMAge,HiLer,Cler,TrapCode,emaRatio,BuySellRatio,emaBuySellRatio,HiLer,Cler,TrapRatio,BAR,HLBar,Sureness  || Signal,Low3, High3, Cash, Shares, Balance, Stop
@@ -59,6 +59,8 @@ for index,row in enumerate(table):
     low3=float(low3)
     high3=float(high3)
     row2=[]
+    profitpercent=profit/(balance-profit)
+    row2.append(str(profitpercent))
 
     #print("DEBUG: ",index,date,signal,table[index-1][20],end=' ')
 
@@ -131,6 +133,8 @@ for index,row in enumerate(table):
                 row2.append(str(holdingdays))
                 row2.append(str(profit))
                 row2.append(str(balance))
+                profitpercent=profit/(balance-profit)
+                row2.append(str(profitpercent))
                 table2.append(row2)
                 row2=[]
                 shares=(cash+shares*priceopen)/priceopen
@@ -218,6 +222,8 @@ for index,row in enumerate(table):
                 row2.append(str(holdingdays))
                 row2.append(str(profit))
                 row2.append(str(balance))
+                profitpercent=profit/(balance-profit)
+                row2.append(str(profitpercent))
                 table2.append(row2)
                 row2=[]
                 
@@ -256,6 +262,8 @@ for index,row in enumerate(table):
             row2.append(str(holdingdays))
             row2.append(str(profit))
             row2.append(str(balance))
+            profitpercent=profit/(balance-profit)
+            row2.append(str(profitpercent))
             table2.append(row2)
             row2=[]
             action=''
@@ -285,6 +293,8 @@ for index,row in enumerate(table):
             row2.append(str(holdingdays))
             row2.append(str(profit))
             row2.append(str(balance))
+            profitpercent=profit/(balance-profit)
+            row2.append(str(profitpercent))
             table2.append(row2)
             row2=[]
             action=''
