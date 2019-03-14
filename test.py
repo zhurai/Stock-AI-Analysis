@@ -59,8 +59,7 @@ for index,row in enumerate(table):
     low3=float(low3)
     high3=float(high3)
     row2=[]
-    profitpercent=profit/(balance-profit)
-    row2.append(str(profitpercent))
+    profitpercent=0
 
     #print("DEBUG: ",index,date,signal,table[index-1][20],end=' ')
 

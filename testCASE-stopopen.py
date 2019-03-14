@@ -59,6 +59,7 @@ for index,row in enumerate(table):
     low3=float(low3)
     high3=float(high3)
     previousclose=0
+    row2=[]
 
 
     #print("DEBUG: ",index,date,signal,table[index-1][20],end=' ')
@@ -69,7 +70,7 @@ for index,row in enumerate(table):
         action=action+''
         None
     else:
-        previousclose=float(table[index-1][5]
+        previousclose=float(table[index-1][5])
         
         if table[index-1][20] == "NEUTRAL":
             # Neutral
