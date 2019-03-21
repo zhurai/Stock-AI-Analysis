@@ -69,29 +69,29 @@ import_tables(table,spxsfile)
 # Date,Open,High,Low,Close,Volume,EMA,EMAge,HiLer,Cler,TrapCode,emaRatio,BuySellRatio,emaBuySellRatio,HiLer,Cler,TrapRatio,BAR,HLBar,Sureness,SPXL-Open,SPXL-High,SPXL-Low,SPXL-Close,SPXS-Open,SPXS-High,SPXS-Low,SPXS-Close
 #  0    1   2     3   4      5     6   7     8     9      10     11         12              13         14    15    16       17  18     19        20        21       22         23         24       25         26      27
 
-'''
+
 for index,row in enumerate(table):
     # initialize
-    date,priceopen,pricehigh,pricelow,priceclose,pricevolume,priceema,emaage,hiler0,cler0,trapcode,emaratio,buysellratio,emabuysellratio,hiler,cler,trapratio,bar,hlbar,sureness, spxlopen, spxlhigh, spxllow, spxlclose = row
-    priceopen=float(priceopen)
-    pricehigh=float(pricehigh)
-    pricelow=float(pricelow)
-    priceclose=float(priceclose)
-    pricevolume=float(pricevolume)
-    priceema=float(priceema)
-    emaage=float(emaage)
-    hiler0=float(hiler0)
-    cler0=float(cler0)
-    trapcode=float(trapcode)
-    emaratio=float(emaratio)
-    buysellratio=float(buysellratio)
-    emabuysellratio=float(emabuysellratio)
-    hiler=float(hiler)
-    cler=float(cler)
-    trapratio=float(trapratio)
-    bar=float(bar)
-    hlbar=float(hlbar)
-    sureness=float(sureness)
+    date=row[0]
+    priceopen=float(row[1])
+    pricehigh=float(row[2])
+    pricelow=float(row[3])
+    priceclose=float(row[4])
+    pricevolume=float(row[5])
+    priceema=float(row[6])
+    emaage=float(row[7])
+    hiler=float(row[8])
+    cler=float(row[9])
+    trapcode=float(row[10])
+    emaratio=float(row[11])
+    buysellratio=float(row[12])
+    emabuysellratio=float(row[13])
+    cwhiler=float(row[14])
+    cwcler=float(row[15])
+    trapratio=float(row[16])
+    bar=float(row[17])
+    hlbar=float(row[18])
+    sureness=float(row[19])
 
     issure=0
     isbuy=0
@@ -174,8 +174,6 @@ for index,row in enumerate(table):
     shortstop=max(highday)
     row.append(longstop)
     row.append(shortstop)
-
-'''
 
 # save file
 utils.savetable(header,table,ofile)
