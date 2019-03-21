@@ -24,7 +24,8 @@ header = utils.appendheaders(header,["Signal","Low "+str(days),"High "+str(days)
 #  0    1   2     3   4      5     6   7     8     9      10     11         12              13         14    15    16       17  18     19
 
 # import SPXL
-for index1,row1 in enumerate(table):
+index1=0
+for row1 in table[:]:
     tabledate=row1[0]
     datefound=-1
     spxldata=[]
@@ -52,25 +53,58 @@ for index1,row1 in enumerate(table):
     
     if datefound != 1:
         # delete row
-        del table[index1]
+        table.remove(row1)
     else:
         # add the information
-        #print(index1)
         row1.append(spxldata[0])
         row1.append(spxldata[1])
         row1.append(spxldata[2])
         row1.append(spxldata[3])
     datefound=-1
+    index1+=1
 
-    CHANGE TO WHILE LOOP
-
-'''
 # import SPXS
-for row1 in table:
-    for row2 in utils.readtable(spxsfile):
+index1=0
+for row1 in table[:]:
+    tabledate=row1[0]
+    datefound=-1
+    spxsdata=[]
+    for index2,row2 in enumerate(utils.readtable(spxsfile)):
         # Date, Open, High, Low, Close, Adj Close, Volume
-        None
-'''
+        spxsdate=row2[0]
+        spxsopen=row2[1]
+        spxshigh=row2[2]
+        spxslow=row2[3]
+        spxsclose=row2[4]
+        spxsadjclose=row2[5]
+        spxsvolume=row2[5]
+
+        # fix the spxsdate to be similar format
+        # windows specific
+        spxsdate=time.strftime("%#m/%#d/%Y",time.strptime(spxsdate,"%Y-%m-%d"))
+        
+        # compare tabledate with spxsdate
+        if row1[0] == spxsdate:
+            datefound = 1
+            spxsdata.append(spxsopen)
+            spxsdata.append(spxshigh)
+            spxsdata.append(spxslow)
+            spxsdata.append(spxsclose)
+    
+    if datefound != 1:
+        # delete row
+        table.remove(row1)
+    else:
+        # add the information
+        row1.append(spxsdata[0])
+        row1.append(spxsdata[1])
+        row1.append(spxsdata[2])
+        row1.append(spxsdata[3])
+    datefound=-1
+    index1+=1
+
+# Date,Open,High,Low,Close,Volume,EMA,EMAge,HiLer,Cler,TrapCode,emaRatio,BuySellRatio,emaBuySellRatio,HiLer,Cler,TrapRatio,BAR,HLBar,Sureness,SPXL-Open,SPXL-High,SPXL-Low,SPXL-Close,SPXS-Open,SPXS-High,SPXS-Low,SPXS-Close
+#  0    1   2     3   4      5     6   7     8     9      10     11         12              13         14    15    16       17  18     19        20        21       22         23         24       25         26      27
 
 '''
 for index,row in enumerate(table):
