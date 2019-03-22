@@ -5,13 +5,19 @@ import csv
 import datetime
 
 # temporarily not using config file to write a mvp
-date = '20180119'
+date = '20190321'
 inputdir = 'input/' + date
 ofile = inputdir+'.csv'
 header= ["Date","File","buy","sell","preBuy","preSell", "EMABuy","EMASell","EMARatio","buySellRatio","Sureness"]
 table=[]
+
 # get list of files within input directory
 listfiles=os.listdir(inputdir)
+
+# data
+#  stocks within index (Stock, date, ...)
+#  data to grab (AboveEMA,emaRatio,EMABuy, EMASell, BSR, Sureness)
+#  some random information (AI-1, -2 to 2 ...) to NOT grab
 
 # loop through files
 for file in listfiles:
