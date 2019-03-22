@@ -2,6 +2,7 @@ import requests
 import gzip
 import config
 import utils
+import os
 
 # CODE FROM https://stackoverflow.com/a/39225039
 # CODE FROM https://github.com/nsadawi/Download-Large-File-From-Google-Drive-Using-Python/blob/master/Download-Large-File-from-Google-Drive.ipynb
@@ -55,6 +56,7 @@ def main():
                 if int(item['name']) > int(date):
                     latestdate=item['name']
                     latestid=item['id']
+                    date=item['name']
                 pass
             except TypeError:
                 # since there are other folders
