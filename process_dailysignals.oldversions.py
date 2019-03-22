@@ -10,8 +10,13 @@ inputdir = 'input/' + date
 ofile = inputdir+'.csv'
 header= ["Date","File","buy","sell","preBuy","preSell", "EMABuy","EMASell","EMARatio","buySellRatio","Sureness"]
 table=[]
+
 # get list of files within input directory
 listfiles=os.listdir(inputdir)
+
+# data
+#  stocks within index (Stock, date, ...)
+#  data to grab (AboveEMA,emaRatio,EMABuy, EMASell, BSR, Sureness)
 
 # loop through files
 for file in listfiles:
