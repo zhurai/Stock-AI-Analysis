@@ -8,7 +8,7 @@ import datetime
 date = '20190321'
 inputdir = 'input/' + date
 ofile = inputdir+'.csv'
-header= ["Date","File","buy","sell","preBuy","preSell", "EMABuy","EMASell","EMARatio","buySellRatio","Sureness"]
+header= ["Date","File","buy","sell","preBuy","preSell", "HiLer","Cler","TrapBuySum","TrapSellSum","TrapRatio","AboveEMA","BelowEMA", "EMABuy","EMASell","emaRatio","emaBSRatio","BuySellRatio","Sureness"]
 table=[]
 
 # get list of files within input directory
@@ -36,23 +36,15 @@ for file in listfiles:
             # these are entries we need
             data.update(dict(zip(row[::2], row[1::2])))
         elif len(row) == 1:
-            # this is also an entry we need
-            # <= because Sureness is randomly in a single cell (Sureness:#) instead of Sureness,#
+            # this is also an entry we might need
             row2=row[0].split(":")
             data.update(dict(zip(row2[::2], row2[1::2])))
 
     # save data
     entry.append(datetime.datetime.strptime(date, '%Y%m%d').strftime('%m/%d/%Y'))
     entry.append(file[:-4])
-    entry.append(data['buy'])
-    entry.append(data['sell'])
-    entry.append(data['preBuy'])
-    entry.append(data['preSell'])
-    entry.append(data['EMABuy'])
-    entry.append(data['EMASell'])
-    entry.append(data['EMARatio'])
-    entry.append(data['buySellRatio'])
-    entry.append(data['Sureness'])
+    for column in header[2:]:
+        entry.append(data[column])
     table.append(entry)
     
 # save file
