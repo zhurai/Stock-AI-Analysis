@@ -4,12 +4,30 @@ import os
 import csv
 import datetime
 
-# temporarily not using config file to write a mvp
-date = '20190321'
+table=[]
+header=[]
+
+localconfig=config.config['PROCESS']
+date=''
+if localconfig['date'] == "all":
+    # NOT IMPLEMENTED YET
+    import sys
+    sys.exit()
+elif localconfig['date'] == "latest":
+    # NOT IMPLEMENTED YET
+    import sys
+    sys.exit()
+else:
+    date=localconfig['date']
 inputdir = 'input/' + date
 ofile = inputdir+'.csv'
-header= ["Date","File","buy","sell","preBuy","preSell", "HiLer","Cler","TrapBuySum","TrapSellSum","TrapRatio","AboveEMA","BelowEMA", "EMABuy","EMASell","emaRatio","emaBSRatio","BuySellRatio","Sureness"]
-table=[]
+if localconfig['file'] != "filename":
+    ofile=localconfig['file']
+
+# header is split like this to make it easier for me to move the most important stuff to front
+header= ["Date","Index"]
+header=header+["emaRatio","emaBSRatio","BuySellRatio"]
+header=header+["buy","sell","preBuy","preSell", "HiLer","Cler","TrapBuySum","TrapSellSum","TrapRatio","AboveEMA","BelowEMA", "EMABuy","EMASell","Sureness"]
 
 # get list of files within input directory
 listfiles=os.listdir(inputdir)
