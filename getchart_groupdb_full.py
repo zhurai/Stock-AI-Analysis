@@ -31,7 +31,7 @@ def get_confirm_token(response):
 # CODE FROM https://github.com/nsadawi/Download-Large-File-From-Google-Drive-Using-Python/blob/master/Download-Large-File-from-Google-Drive.ipynb
 def save_response_content(response, destination):
     CHUNK_SIZE = 32768
-    
+
     with open(destination, "wb") as f:
         for chunk in response.iter_content(CHUNK_SIZE):
             if chunk: # filter out keep-alive new chunks
@@ -44,12 +44,12 @@ def main():
     filename=[]
 
     # get list of csv gdrive id's
-    for item in config.config['EXTERNALLIST'].values():
+    for item in config.config['EXTERNALGROUPDB'].values():
         csvidlist.append(item)
-    
+
     # get their filenames
     for item in csvidlist:
-        r=requests.get("https://www.googleapis.com/drive/v3/files/"+item+"?key="+localconfig['gdrivekey']) 
+        r=requests.get("https://www.googleapis.com/drive/v3/files/"+item+"?key="+localconfig['gdrivekey'])
         filename.append(r.json()['name'])
 
     for index,item in enumerate(csvidlist):
