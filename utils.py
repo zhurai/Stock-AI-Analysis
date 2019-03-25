@@ -1,6 +1,13 @@
-
 ############################################################################################
-#### READ CSV FILE
+#### General stuff
+
+def getroot():
+    import os
+    basepath=os.path.dirname(os.path.realpath(__file__))+"/"
+    return basepath
+    ############################################################################################
+    #### READ CSV FILE
+
 
 # READ IN TABLE
 # file = input file
@@ -84,17 +91,17 @@ def main():
     # check if folders are created so I don't have to manually do it in a new import
     import os
 
-    if not os.path.exists("input"):
-        os.makedirs("input")
+    if not os.path.exists(getroot()+"_input"):
+        os.makedirs(getroot()+"_input")
 
-    if not os.path.exists("output"):
-        os.makedirs("output")
+    if not os.path.exists(getroot()+"_output"):
+        os.makedirs(getroot()+"_output")
 
-    if not os.path.exists("input/gzip"):
-        os.makedirs("input/gzip")
+    if not os.path.exists(getroot()+"_input/gzip"):
+        os.makedirs(getroot()+"_input/gzip")
 
-    if not os.path.exists("input/stocks"):
-        os.makedirs("input/stocks")
+    if not os.path.exists(getroot()+"_input/stocks"):
+        os.makedirs(getroot()+"_input/stocks")
 
 # run main() when imported
 main()
