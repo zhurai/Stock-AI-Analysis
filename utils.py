@@ -43,7 +43,7 @@ def appendheaders(header,append):
     for entry in append:
         header.append(entry)
     return header
-	
+
 ############################################################################################
 #### DEBUG RELATED
 
@@ -52,7 +52,7 @@ def appendheaders(header,append):
 def outputtable (table):
     print('\n'.join(map(' '.join, table)))
 
-	
+
 ############################################################################################
 #### OUTPUT RELATED
 
@@ -61,7 +61,7 @@ def outputtable (table):
 def getfilename():
     import os
     import __main__
-    
+
     return os.path.basename(__main__.__file__).split(".")[0]
 
 # SAVE FILE
@@ -69,14 +69,14 @@ def getfilename():
 # table = to be written to table
 # file = output file
 def savetable(header,table,file):
-    import csv    
+    import csv
     with open(file,mode='w',newline='') as csvfile:
         write=csv.writer(csvfile,delimiter=',')
         write.writerow(header)
         for row in table:
             write.writerow(row)
 
-	
+
 ############################################################################################
 #### INTRO RELATED
 
@@ -92,6 +92,9 @@ def main():
 
     if not os.path.exists("input/gzip"):
         os.makedirs("input/gzip")
+
+    if not os.path.exists("input/stocks"):
+        os.makedirs("input/stocks")
 
 # run main() when imported
 main()
