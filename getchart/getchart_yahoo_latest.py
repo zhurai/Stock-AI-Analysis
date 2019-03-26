@@ -30,7 +30,7 @@ for item in stocks:
     r=requests.get(urlbase+item+urlpart1+str(date1)+urlpart2+str(date2)+urlother+crumb)
 
     # save it into input
-    with open(localconfig['localfolder']+item,'w') as f:
+    with open(utils.getroot()+localconfig['localfolder']+item+".csv",'w') as f:
         for line in f:
             f.write(line)
 

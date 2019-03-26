@@ -21,8 +21,8 @@ elif localconfig['date'] == "latest":
     sys.exit()
 else:
     date=localconfig['date']
-inputdir = utils.getroot()+'input/' + date
-ofile = utils.getroot()+inputdir+'.csv'
+inputdir = utils.getroot()+config.config['EXTERNAL']['localfolder'] + date
+ofile = inputdir+'.csv'
 if localconfig['file'] != "filename":
     ofile=localconfig['file']
 

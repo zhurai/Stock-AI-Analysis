@@ -1,22 +1,24 @@
 import csv
-import utils
+import sys
+sys.path.insert(0, '..')
 import config
+import utils
 
 table = []
 header = []
 
 localconfig=config.config['ANALYSIS']
-file=config.config['INPUT']['file']
-ofile=config.config['INPUT']['tfile']
+file=utils.getroot()+config.config['INPUT']['file']
+ofile=utils.getroot()+config.config['INPUT']['tfile']
 if localconfig['file'] != "filename":
-    ofile=localconfig['file']
+    ofile=utils.getroot()+localconfig['file']
 days=localconfig.getint('days')
 
 table = utils.readtable(file)
 header = utils.readheaders(file)
 header = utils.appendheaders(header,["Signal","Low "+str(days),"High "+str(days)])
 
-# Date,Open,High,Low,Close,Volume,EMA,EMAge,HiLer,Cler,TrapCode,emaRatio,BuySellRatio,emaBuySellRatio,HiLer,Cler,TrapRatio,BAR,HLBar,Sureness 
+# Date,Open,High,Low,Close,Volume,EMA,EMAge,HiLer,Cler,TrapCode,emaRatio,BuySellRatio,emaBuySellRatio,HiLer,Cler,TrapRatio,BAR,HLBar,Sureness
 #  0    1   2     3   4      5     6   7     8     9      10     11         12              13         14    15    16       17  18     19
 
 for index,row in enumerate(table):
@@ -87,14 +89,14 @@ for index,row in enumerate(table):
     else:
         # No Signal Type Loaded
         row.append("NEUTRAL")
-    
-    
+
+
     #### STOP PRICES
     # min=longstop
     # max=shortstop
     lowday = []
     highday = []
-    
+
     if localconfig.getboolean('highlowinclusive') == True:
         if index < days-1:
             for x in range(0,index+1):
@@ -118,7 +120,7 @@ for index,row in enumerate(table):
             for x in range(0,days):
                 lowday.append(float(table[index-x-1][3]))
                 highday.append(float(table[index-x-1][2]))
-    
+
     longstop=min(lowday)
     shortstop=max(highday)
     row.append(longstop)
@@ -126,5 +128,3 @@ for index,row in enumerate(table):
 
 # save file
 utils.savetable(header,table,ofile)
-        
-

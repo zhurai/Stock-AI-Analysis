@@ -1,13 +1,15 @@
 import csv
-import utils
+import sys
+sys.path.insert(0, '..')
 import config
+import utils
 
 table = []
 header = []
 
 localconfig=config.config['TEST']
 file=config.config['INPUT']['tfile']
-ofile='output\\' + utils.getfilename() + '.csv' 
+ofile='output\\' + utils.getfilename() + '.csv'
 ofile2='output\\' + utils.getfilename() + '.log.csv'
 if localconfig['file'] != "filename":
     ofile=localconfig['file']
@@ -71,7 +73,7 @@ for index,row in enumerate(table):
         None
     else:
         previousclose=float(table[index-1][5])
-        
+
         if table[index-1][20] == "NEUTRAL":
             # Neutral
             # set stop
@@ -88,7 +90,7 @@ for index,row in enumerate(table):
                         stop=priceopen
                     else:
                         stop=high3
-            
+
             # do nothing
             # <N>
             action=action+''
@@ -99,7 +101,7 @@ for index,row in enumerate(table):
 
         elif table[index-1][20] == "BUY":
             # LONG
-            
+
             # set stop
             if localconfig.getboolean('stop'):
                 if shares > 0:
@@ -114,7 +116,7 @@ for index,row in enumerate(table):
                     else:
                         stop=low3
 
-            
+
             if shares <0:
                 # previously short
                 # buy shares to cover short AND buy additional shares
@@ -163,10 +165,10 @@ for index,row in enumerate(table):
                 balance2=balance
                 boughtdate=date
             #print ("TYPE3",end=' ')
-            
+
         elif table[index-1][20] == "SELL":
             # SHORT
-            
+
             # set stop
             if localconfig.getboolean('stop'):
                 if shares < 0:
@@ -222,7 +224,7 @@ for index,row in enumerate(table):
                 row2.append(str(balance))
                 table2.append(row2)
                 row2=[]
-                
+
                 cash=shares*priceopen*2
                 shares=-1*shares
                 trades=trades+1
@@ -293,11 +295,11 @@ for index,row in enumerate(table):
             holdingdays=0
             profit=0
 
-            
+
     balance=cash+shares*priceclose
-    
+
     #print (cash,shares,balance,stop, end=' ')
-    
+
     row.append(str(cash))
     row.append(str(shares))
     row.append(str(balance))
@@ -305,7 +307,7 @@ for index,row in enumerate(table):
     row.append(str(trades))
     row.append(str(dailyaction))
     dailyaction=''
-    
+
     #action=''
     trades=0
     #print(" ")

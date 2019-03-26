@@ -2,8 +2,8 @@
 __pycache__/
 
 # ignore input/output files
-input/
-output/
+_input/
+_output/
 
 # ignore configuration files
 config.ini
