@@ -28,8 +28,8 @@ if localconfig['file'] != "filename":
 
 # header is split like this to make it easier for me to move the most important stuff to front
 header= ["Date","Index"]
-header=header+["emaRatio","emaBSRatio","BuySellRatio"]
-header=header+["buy","sell","preBuy","preSell", "HiLer","Cler","TrapBuySum","TrapSellSum","TrapRatio","AboveEMA","BelowEMA", "EMABuy","EMASell","Sureness"]
+header=header+["emaRatio","emaBSRatio","BuySellRatio","Sureness"]
+header=header+["buy","sell","preBuy","preSell", "HiLer","Cler","TrapBuySum","TrapSellSum","TrapRatio","AboveEMA","BelowEMA", "EMABuy","EMASell"]
 
 # get list of files within input directory
 listfiles=os.listdir(inputdir)
